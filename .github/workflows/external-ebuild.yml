@@ -47,8 +47,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd overlay
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Configurar usuario para git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Comprobar si hay cambios
           git add sys-apps/mission-center
           git diff-index --quiet HEAD || git commit -m "Sync newer mission-center ebuilds and patches"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
+
+          # Forzar que el remote use el token correcto
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+
+          # Hacer push
+          git push origin HEAD:${{ github.ref_name }}
