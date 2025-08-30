@@ -47,12 +47,10 @@ jobs:
             for item in "$SRC_DIR"/*; do
               fname=$(basename "$item")
 
-              # Saltar Manifest
               if [[ "$fname" == "Manifest" ]]; then
                 continue
               fi
 
-              # Saltar si es excepción
               SKIP=0
               for ex in "${EXCEPTIONS[@]}"; do
                 if [[ "$DST_DIR/$fname" == "overlay/$ex" ]]; then
@@ -65,7 +63,6 @@ jobs:
               fi
 
               if [[ "$fname" == *.ebuild ]]; then
-                # --- CONTROL DE VERSIONES SOLO PARA EBUILDS ---
                 version=$(echo "$fname" | sed -E "s/.*-([0-9.]+)\.ebuild/\1/")
                 if [ "$(printf '%s\n%s\n' "$MIN_VERSION" "$version" | sort -V | tail -n1)" != "$MIN_VERSION" ]; then
                   cp -u "$item" "$DST_DIR/"
