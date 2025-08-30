@@ -1,5 +1,5 @@
 # Copyright 2020-2022 Gentoo Authors
-# Distributed under the terms of the GNU General Public License v2
+# Distributed under the terms of the GNU General Public License v2d
 
 EAPI=8
 inherit cmake flag-o-matic xdg

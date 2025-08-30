@@ -61,25 +61,31 @@ jobs:
               fi
             done
                       
-            for subdir in files patches; do
-              if [ -d "$SRC_DIR/$subdir" ]; then
-                mkdir -p "$DST_DIR/$subdir"
-                for f in "$SRC_DIR/$subdir/"*; do
-                  fname=$(basename "$f")                
-                  if [[ "$fname" == "Manifest" ]]; then
-                    continue
-                  fi
-                  SKIP=0
-                  for ex in "${EXCEPTIONS[@]}"; do
-                    if [[ "$DST_DIR/$subdir/$fname" == "overlay/$ex" ]]; then
-                      SKIP=1
-                      break
-                    fi
-                  done
-                  if [ $SKIP -eq 0 ]; then
-                    cp -u "$f" "$DST_DIR/$subdir/"
-                  fi
-                done
+            shopt -s dotglob
+            for item in "$SRC_DIR"/*; do
+              fname=$(basename "$item")
+
+              # Saltar Manifest
+              if [[ "$fname" == "Manifest" ]]; then
+                continue
+              fi
+
+              # Saltar si es excepción
+              SKIP=0
+              for ex in "${EXCEPTIONS[@]}"; do
+                if [[ "$DST_DIR/$fname" == "overlay/$ex" ]]; then
+                  SKIP=1
+                  break
+                fi
+              done
+
+              if [ $SKIP -eq 0 ]; then
+                if [ -d "$item" ]; then
+                  mkdir -p "$DST_DIR/$fname"
+                  cp -ru "$item/"* "$DST_DIR/$fname/"
+                else
+                  cp -u "$item" "$DST_DIR/"
+                fi
               fi
             done
             
