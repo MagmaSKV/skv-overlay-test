@@ -3,7 +3,7 @@ name: Get External Packages
 on:
   workflow_dispatch:
   schedule:
-    - cron: '3 18 * * *'  # Ejecuta todos los días a las 18:00 UTC (~20:00 CEST)
+    - cron: '3 18 * * *' # MIN HOUR DAY MONTH WEEK-DAY
 
 permissions:
   contents: write
@@ -91,8 +91,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd overlay
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "External Packages"
+          git config --global user.email "external-packages@users.noreply.github.com"
           git add .
           git diff-index --quiet HEAD || git commit -m "Sync external ebuilds"
           git push origin HEAD:${{ github.ref_name }}
