@@ -3,7 +3,7 @@ name: Get External Packages
 on:
   workflow_dispatch:
   schedule:
-    - cron: '3 18 * * *' # MIN HOUR DAY MONTH WEEK-DAY
+    - cron: '40 18 * * *' # MIN HOUR DAY MONTH WEEK-DAY
 
 permissions:
   contents: write
