@@ -12,9 +12,6 @@ jobs:
         with:
           path: overlay
 
-      - name: Install git
-        run: sudo apt-get update && sudo apt-get install -y git
-
       - name: Clone external overlay
         run: |
           git clone --depth 1 https://github.com/gentoo-mirror/xarblu-overlay.git external
