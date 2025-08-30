@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  sync-ebuilds:
+  get-packages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout overlay repo
