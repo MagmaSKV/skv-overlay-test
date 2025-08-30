@@ -2,6 +2,8 @@ name: Get External Packages
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 18 * * *'  # Ejecuta todos los días a las 18:00 UTC (~20:00 CEST)
 
 permissions:
   contents: write
