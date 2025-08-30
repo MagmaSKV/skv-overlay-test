@@ -1,4 +1,4 @@
-name: Sync External Ebuilds
+name: Get External Packages
 
 on:
   workflow_dispatch:
@@ -15,13 +15,10 @@ jobs:
         with:
           path: overlay
 
-      - name: Install git
-        run: sudo apt-get update && sudo apt-get install -y git
-
-      - name: Read package list and sync
+      - name: Read package list and get
         run: |
-          PACKAGE_LIST=".github/external-ebuild/external-packages.txt"
-          EXCEPTIONS_FILE=".github/external-ebuild/exceptions.txt"
+          PACKAGE_LIST=".github/external-packages/external-packages.txt"
+          EXCEPTIONS_FILE=".github/external-packages/exceptions.txt"
           declare -a EXCEPTIONS
           
           # Leer excepciones
@@ -33,7 +30,7 @@ jobs:
           while IFS="|" read -r REPO PKG_PATH MIN_VERSION; do
             echo "Syncing $PKG_PATH from $REPO newer than $MIN_VERSION..."
             
-            TMP_DIR=$(mktemp -d) 
+            TMP_DIR=$(mktemp -d)
             git clone --depth 1 "$REPO" "$TMP_DIR"
             
             SRC_DIR="$TMP_DIR/$PKG_PATH"
