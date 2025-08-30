@@ -47,6 +47,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd overlay
+          git remote -v
 
           # Configurar usuario para git
           git config --global user.name "github-actions[bot]"
