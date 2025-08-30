@@ -6,6 +6,10 @@ on:
       - '**/*.ebuild'
       - '**/metadata.xml'
       - '**/profiles/**'
+  workflow_run:
+    workflows: ["Get External Packages"]
+    types:
+      - completed
   workflow_dispatch: 
 
 permissions:
