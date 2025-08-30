@@ -30,8 +30,7 @@ jobs:
             
             REPO_NAME=$(basename "$REPO" .git)
             TMP_DIR="/tmp/$REPO_NAME"
-            
-            # Clonar solo si no existe
+                      
             if [ ! -d "$TMP_DIR" ]; then
               git clone --depth 1 "$REPO" "$TMP_DIR"
             else
@@ -41,14 +40,12 @@ jobs:
             SRC_DIR="$TMP_DIR/$PKG_PATH"
             DST_DIR="overlay/$PKG_PATH"
             mkdir -p "$DST_DIR"
-            
-            # Copiar ebuilds
+                      
             for ebuild in "$SRC_DIR"/*.ebuild; do
               base=$(basename "$ebuild")
               version=$(echo "$base" | sed -E "s/.*-([0-9.]+)\.ebuild/\1/")
               
-              if [ "$(printf '%s\n%s\n' "$MIN_VERSION" "$version" | sort -V | tail -n1)" != "$MIN_VERSION" ]; then
-                # Verificar si es excepción
+              if [ "$(printf '%s\n%s\n' "$MIN_VERSION" "$version" | sort -V | tail -n1)" != "$MIN_VERSION" ]; then              
                 SKIP=0
                 for ex in "${EXCEPTIONS[@]}"; do
                   if [[ "$DST_DIR/$base" == "overlay/$ex" ]]; then
@@ -61,14 +58,15 @@ jobs:
                 fi
               fi
             done
-            
-            # Copiar archivos de directorios como files, patches, etc
+                      
             for subdir in files patches; do
               if [ -d "$SRC_DIR/$subdir" ]; then
                 mkdir -p "$DST_DIR/$subdir"
                 for f in "$SRC_DIR/$subdir/"*; do
-                  fname=$(basename "$f")
-                  # Verificar excepción
+                  fname=$(basename "$f")                
+                  if [[ "$fname" == "Manifest" ]]; then
+                    continue
+                  fi
                   SKIP=0
                   for ex in "${EXCEPTIONS[@]}"; do
                     if [[ "$DST_DIR/$subdir/$fname" == "overlay/$ex" ]]; then
