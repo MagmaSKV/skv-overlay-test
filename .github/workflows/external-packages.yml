@@ -17,7 +17,7 @@ jobs:
 
       - name: Read package list and get
         run: |
-          PACKAGE_LIST=".github/external-packages/external-packages.txt"
+          PACKAGE_LIST=".github/external-packages/packages.txt"
           EXCEPTIONS_FILE=".github/external-packages/exceptions.txt"
           declare -a EXCEPTIONS
           
