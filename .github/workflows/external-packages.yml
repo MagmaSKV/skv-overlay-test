@@ -19,9 +19,7 @@ jobs:
         run: |
           PACKAGE_LIST="overlay/.github/external-packages/packages.txt"
           EXCEPTIONS_FILE="overlay/.github/external-packages/exceptions.txt"
-          declare -a EXCEPTIONS
           
-          # Leer excepciones
           declare -a EXCEPTIONS
           if [ -f "$EXCEPTIONS_FILE" ]; then
             mapfile -t EXCEPTIONS < "$EXCEPTIONS_FILE"
@@ -30,8 +28,15 @@ jobs:
           while IFS="|" read -r REPO PKG_PATH MIN_VERSION; do
             echo "Syncing $PKG_PATH from $REPO newer than $MIN_VERSION..."
             
-            TMP_DIR=$(mktemp -d)
-            git clone --depth 1 "$REPO" "$TMP_DIR"
+            REPO_NAME=$(basename "$REPO" .git)
+            TMP_DIR="/tmp/$REPO_NAME"
+            
+            # Clonar solo si no existe
+            if [ ! -d "$TMP_DIR" ]; then
+              git clone --depth 1 "$REPO" "$TMP_DIR"
+            else
+              echo "Repo $REPO_NAME already cloned, reusing $TMP_DIR"
+            fi
             
             SRC_DIR="$TMP_DIR/$PKG_PATH"
             DST_DIR="overlay/$PKG_PATH"
