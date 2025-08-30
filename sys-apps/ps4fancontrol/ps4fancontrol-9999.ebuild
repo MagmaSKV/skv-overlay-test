@@ -3,7 +3,7 @@
 
 EAPI="8"
 
-inherit git-r3 systemd xdg
+inherit git-r3 systemd desktop
 
 DESCRIPTION="Hardware PS4 FAN control util"
 HOMEPAGE="https://github.com/MagmaSKV/ps4fancontrol"
