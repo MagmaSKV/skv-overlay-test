@@ -43,14 +43,16 @@ jobs:
             DST_DIR="overlay/$PKG_PATH"
             mkdir -p "$DST_DIR"
 
-            shopt -s dotglob
+            shopt -s dotglob nullglob
             for item in "$SRC_DIR"/*; do
               fname=$(basename "$item")
 
+              # Saltar Manifest
               if [[ "$fname" == "Manifest" ]]; then
                 continue
               fi
 
+              # Saltar si es excepción
               SKIP=0
               for ex in "${EXCEPTIONS[@]}"; do
                 if [[ "$DST_DIR/$fname" == "overlay/$ex" ]]; then
@@ -70,7 +72,7 @@ jobs:
                 fi
               elif [ -d "$item" ]; then
                 mkdir -p "$DST_DIR/$fname"
-                cp -ru "$item/"* "$DST_DIR/$fname/"
+                rsync -a --ignore-existing "$item/" "$DST_DIR/$fname/"
               else
                 cp -u "$item" "$DST_DIR/"
               fi
@@ -78,6 +80,7 @@ jobs:
                 
             rm -rf "$TMP_DIR"
           done < "$PACKAGE_LIST"
+
 
       - name: Commit and push changes
         env:
@@ -87,5 +90,5 @@ jobs:
           git config --global user.name "External Packages"
           git config --global user.email "external-packages@users.noreply.github.com"
           git add .
-          git diff-index --quiet HEAD || git commit -m "Sync external ebuilds"
+          git diff-index --quiet HEAD || git commit -m "Get external packages"
           git push origin HEAD:${{ github.ref_name }}
