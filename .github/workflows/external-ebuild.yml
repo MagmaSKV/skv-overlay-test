@@ -3,6 +3,9 @@ name: Sync External Ebuilds
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   sync-ebuilds:
     runs-on: ubuntu-latest
