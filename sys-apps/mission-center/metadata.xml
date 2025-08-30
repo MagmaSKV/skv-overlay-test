@@ -2,10 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM 'https://www.gentoo.org/dtd/metadata.dtd'>
 <pkgmetadata>
 	<maintainer type="person">
-		<email>brettalcox@gmail.com</email>
+		<email>xarblu@protonmail.com</email>
+		<name>Xarblu</name>
 	</maintainer>
 	<upstream>
-		<remote-id type="github">Syllo/nvtop</remote-id>
 		<remote-id type="gitlab">mission-center-devs/mission-center</remote-id>
 	</upstream>
 </pkgmetadata>
