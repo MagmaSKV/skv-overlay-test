@@ -17,80 +17,69 @@ jobs:
         with:
           path: overlay
 
-      - name: Read package list and get
-        run: |
-          PACKAGE_LIST="overlay/.github/external-packages/packages.txt"
-          EXCEPTIONS_FILE="overlay/.github/external-packages/exceptions.txt"
-          
-          declare -a EXCEPTIONS
-          if [ -f "$EXCEPTIONS_FILE" ]; then
-            mapfile -t EXCEPTIONS < "$EXCEPTIONS_FILE"
-          fi
-          
-          while IFS="|" read -r REPO PKG_PATH MIN_VERSION; do
-            echo "Syncing $PKG_PATH from $REPO newer than $MIN_VERSION..."
-            
-            REPO_NAME=$(basename "$REPO" .git)
-            TMP_DIR="/tmp/$REPO_NAME"
-                      
-            if [ ! -d "$TMP_DIR" ]; then
-              git clone --depth 1 "$REPO" "$TMP_DIR"
-            else
-              echo "Repo $REPO_NAME already cloned, reusing $TMP_DIR"
-            fi
-            
-            SRC_DIR="$TMP_DIR/$PKG_PATH"
-            DST_DIR="overlay/$PKG_PATH"
-            mkdir -p "$DST_DIR"
-                      
-            for ebuild in "$SRC_DIR"/*.ebuild; do
-              base=$(basename "$ebuild")
-              version=$(echo "$base" | sed -E "s/.*-([0-9.]+)\.ebuild/\1/")
+          - name: Read package list and get
+            run: |
+              PACKAGE_LIST="overlay/.github/external-packages/packages.txt"
+              EXCEPTIONS_FILE="overlay/.github/external-packages/exceptions.txt"
               
-              if [ "$(printf '%s\n%s\n' "$MIN_VERSION" "$version" | sort -V | tail -n1)" != "$MIN_VERSION" ]; then              
-                SKIP=0
-                for ex in "${EXCEPTIONS[@]}"; do
-                  if [[ "$DST_DIR/$base" == "overlay/$ex" ]]; then
-                    SKIP=1
-                    break
+              declare -a EXCEPTIONS
+              if [ -f "$EXCEPTIONS_FILE" ]; then
+                mapfile -t EXCEPTIONS < "$EXCEPTIONS_FILE"
+              fi
+              
+              while IFS="|" read -r REPO PKG_PATH MIN_VERSION; do
+                echo "Syncing $PKG_PATH from $REPO newer than $MIN_VERSION..."
+                
+                REPO_NAME=$(basename "$REPO" .git)
+                TMP_DIR="/tmp/$REPO_NAME"
+                          
+                if [ ! -d "$TMP_DIR" ]; then
+                  git clone --depth 1 "$REPO" "$TMP_DIR"
+                else
+                  echo "Repo $REPO_NAME already cloned, reusing $TMP_DIR"
+                fi
+                
+                SRC_DIR="$TMP_DIR/$PKG_PATH"
+                DST_DIR="overlay/$PKG_PATH"
+                mkdir -p "$DST_DIR"
+
+                shopt -s dotglob
+                for item in "$SRC_DIR"/*; do
+                  fname=$(basename "$item")
+
+                  # Saltar Manifest
+                  if [[ "$fname" == "Manifest" ]]; then
+                    continue
+                  fi
+
+                  # Saltar si es excepción
+                  SKIP=0
+                  for ex in "${EXCEPTIONS[@]}"; do
+                    if [[ "$DST_DIR/$fname" == "overlay/$ex" ]]; then
+                      SKIP=1
+                      break
+                    fi
+                  done
+                  if [ $SKIP -eq 1 ]; then
+                    continue
+                  fi
+
+                  if [[ "$fname" == *.ebuild ]]; then
+                    # --- CONTROL DE VERSIONES SOLO PARA EBUILDS ---
+                    version=$(echo "$fname" | sed -E "s/.*-([0-9.]+)\.ebuild/\1/")
+                    if [ "$(printf '%s\n%s\n' "$MIN_VERSION" "$version" | sort -V | tail -n1)" != "$MIN_VERSION" ]; then
+                      cp -u "$item" "$DST_DIR/"
+                    fi
+                  elif [ -d "$item" ]; then
+                    mkdir -p "$DST_DIR/$fname"
+                    cp -ru "$item/"* "$DST_DIR/$fname/"
+                  else
+                    cp -u "$item" "$DST_DIR/"
                   fi
                 done
-                if [ $SKIP -eq 0 ]; then
-                  cp -u "$ebuild" "$DST_DIR/"
-                fi
-              fi
-            done
-                      
-            shopt -s dotglob
-            for item in "$SRC_DIR"/*; do
-              fname=$(basename "$item")
-
-              # Saltar Manifest
-              if [[ "$fname" == "Manifest" ]]; then
-                continue
-              fi
-
-              # Saltar si es excepción
-              SKIP=0
-              for ex in "${EXCEPTIONS[@]}"; do
-                if [[ "$DST_DIR/$fname" == "overlay/$ex" ]]; then
-                  SKIP=1
-                  break
-                fi
-              done
-
-              if [ $SKIP -eq 0 ]; then
-                if [ -d "$item" ]; then
-                  mkdir -p "$DST_DIR/$fname"
-                  cp -ru "$item/"* "$DST_DIR/$fname/"
-                else
-                  cp -u "$item" "$DST_DIR/"
-                fi
-              fi
-            done
-            
-            rm -rf "$TMP_DIR"
-          done < "$PACKAGE_LIST"
+                
+                rm -rf "$TMP_DIR"
+              done < "$PACKAGE_LIST"
 
       - name: Commit and push changes
         env:
