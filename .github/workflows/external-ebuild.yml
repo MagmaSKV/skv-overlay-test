@@ -1,0 +1,56 @@
+name: Sync External Ebuilds
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync-ebuilds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout overlay repo
+        uses: actions/checkout@v3
+        with:
+          path: overlay
+
+      - name: Install git
+        run: sudo apt-get update && sudo apt-get install -y git
+
+      - name: Clone external overlay
+        run: |
+          git clone --depth 1 https://github.com/gentoo-mirror/xarblu-overlay.git external
+
+      - name: Copy newer ebuilds and files
+        run: |
+          SRC_DIR="external/sys-apps/mission-center"
+          DST_DIR="overlay/sys-apps/mission-center"
+          mkdir -p "$DST_DIR"
+
+          CURRENT_VERSION="1.0.2"
+
+          # Copiar solo ebuilds más nuevas que 1.0.2
+          for ebuild in "$SRC_DIR"/*.ebuild; do
+            base=$(basename "$ebuild")
+            version=$(echo "$base" | sed -E 's/mission-center-([0-9.]+)\.ebuild/\1/')
+            
+            # Comparar versiones usando sort -V
+            if [ "$(printf '%s\n%s\n' "$CURRENT_VERSION" "$version" | sort -V | tail -n1)" != "$CURRENT_VERSION" ]; then
+              cp -u "$ebuild" "$DST_DIR/"
+            fi
+          done
+
+          # Copiar directorio files si existe
+          if [ -d "$SRC_DIR/files" ]; then
+            mkdir -p "$DST_DIR/files"
+            cp -ru "$SRC_DIR/files/"* "$DST_DIR/files/"
+          fi
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd overlay
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sys-apps/mission-center
+          git diff-index --quiet HEAD || git commit -m "Sync newer mission-center ebuilds and patches"
+          git push origin HEAD:${{ github.ref_name }}
