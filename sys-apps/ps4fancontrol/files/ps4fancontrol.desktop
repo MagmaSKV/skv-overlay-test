@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=PS4 Fan Control
+Exec=ps4fancontrol
+Comment=
+Terminal=false
+PrefersNonDefaultGPU=false
+Icon=cs-power
+Categories=System;
+Keywords=system;fan
+Type=Application
