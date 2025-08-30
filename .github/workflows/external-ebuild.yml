@@ -33,7 +33,7 @@ jobs:
           while IFS="|" read -r REPO PKG_PATH MIN_VERSION; do
             echo "Syncing $PKG_PATH from $REPO newer than $MIN_VERSION..."
             
-            TMP_DIR=$(mktemp -d)
+            TMP_DIR=$(mktemp -d) 
             git clone --depth 1 "$REPO" "$TMP_DIR"
             
             SRC_DIR="$TMP_DIR/$PKG_PATH"
