@@ -50,7 +50,7 @@ python_install() {
 	insinto "/etc"
 	doins "${S}/ds4drv.conf"
 
-	systemd_dounit "${FILESDIR}/ds4drv.service"
+	systemd_dounit "${FILESDIR}/systemd/ds4drv.service"
 
 	distutils-r1_python_install
 }
