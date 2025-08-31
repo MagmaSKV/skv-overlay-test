@@ -2,6 +2,9 @@ name: Get External Packages
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/external-packages/packages.txt'
   schedule:
     - cron: '40 19 * * *' # MIN HOUR DAY MONTH WEEK-DAY
 
