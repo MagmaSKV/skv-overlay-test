@@ -470,6 +470,7 @@ src_prepare() {
     mkdir -p "${nvtop_dest}" || die
     mv "${WORKDIR}/nvtop" "${nvtop_dest}" || die
 
+	mkdir -p "${WORKDIR}/cargo_home/gentoo" || die
     default
 }
 
