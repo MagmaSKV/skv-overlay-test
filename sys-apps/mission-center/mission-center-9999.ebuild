@@ -456,7 +456,7 @@ src_unpack() {
 }
 
 src_prepare() {
-    rmdir subprojects/magpie || die
+    rm -rf subprojects/magpie || die
     mv "${WORKDIR}/magpie" subprojects/magpie || die
 
     pushd "${WORKDIR}/nvtop" >/dev/null || die
