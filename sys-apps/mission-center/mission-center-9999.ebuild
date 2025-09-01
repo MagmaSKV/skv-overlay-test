@@ -453,6 +453,9 @@ src_unpack() {
     git-r3_src_unpack
     EGIT_REPO_URI=${MAGPIE_EGIT_REPO_URI} EGIT_CHECKOUT_DIR="${WORKDIR}/magpie" git-r3_src_unpack
     EGIT_REPO_URI=${NVTOP_EGIT_REPO_URI}  EGIT_CHECKOUT_DIR="${WORKDIR}/nvtop"  git-r3_src_unpack
+
+	cargo_gen_config
+    cargo_fetch
 }
 
 src_prepare() {
@@ -472,7 +475,6 @@ src_prepare() {
 
 src_configure() {
     local EMESON_BUILDTYPE=$(usex debug debug release)
-	cargo_gen_config
     cargo_env meson_src_configure
 }
 
