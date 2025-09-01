@@ -472,6 +472,7 @@ src_prepare() {
 
 src_configure() {
     local EMESON_BUILDTYPE=$(usex debug debug release)
+	cargo_gen_config
     cargo_env meson_src_configure
 }
 
