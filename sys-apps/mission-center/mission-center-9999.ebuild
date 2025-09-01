@@ -443,10 +443,6 @@ QA_FLAGS_IGNORED="
     usr/bin/missioncenter-magpie
 "
 
-PATCHES=(
-    "${FILESDIR}/1.0.0-respect-cargo-home.patch"
-)
-
 BUILD_DIR="${WORKDIR}/${P}-build"
 
 src_unpack() {
@@ -470,7 +466,6 @@ src_prepare() {
     mkdir -p "${nvtop_dest}" || die
     mv "${WORKDIR}/nvtop" "${nvtop_dest}" || die
 
-	mkdir -p "${WORKDIR}/cargo_home/gentoo" || die
     default
 }
 
