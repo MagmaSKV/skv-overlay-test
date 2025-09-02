@@ -24,5 +24,8 @@ src_install() {
 	insinto "/usr/include/${PN}"
 	doins -r "include/${PN}/"*
 	einstalldocs
+	local mycmakeargs=(
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    )
 	cmake_src_install
 }
