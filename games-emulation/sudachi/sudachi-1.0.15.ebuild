@@ -124,6 +124,7 @@ src_configure() {
 	# coming after.
 	append-cxxflags -Wno-switch
 	local mycmakeargs=(
+		-DCMAKE_POLICY_VERSION_MINIMUM=3.5
 		-DBUILD_SHARED_LIBS=OFF
 		-DCMAKE_DISABLE_FIND_PACKAGE_xbyak=ON
 		-DCMAKE_DISABLE_PRECOMPILE_HEADERS=OFF  # FIXME
