@@ -7,7 +7,7 @@ inherit cmake git-r3 xdg
 
 DESCRIPTION="An emulator for Nintendo Switch"
 HOMEPAGE="https://citron-emu.org"
-EGIT_REPO_URI="https://git.citron-emu.org/Citron/Citron.git"
+EGIT_REPO_URI="https://git.citron-emu.org/citron/emu.git"
 EGIT_SUBMODULES=( '-*' 'cpp-httplib' 'cpp-jwt' 'dynarmic' 'mbedtls' 'simpleini' 'sirit' 'xbyak' 'tzdb_to_nx'
 	              'externals/nx_tzdb/tzdb_to_nx/externals/tz/tz' 'VulkanMemoryAllocator' )
 # Dynarmic is not intended to be generic, it is tweaked to fit emulated processor
