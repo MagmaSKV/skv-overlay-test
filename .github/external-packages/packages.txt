@@ -5,3 +5,4 @@ https://github.com/gentoo-mirror/FireBurn|games-emulation/yuzu|0
 https://github.com/gentoo-mirror/guru|media-libs/VulkanMemoryAllocator|0
 https://github.com/gentoo-mirror/guru|games-emulation/azahar|0
 https://github.com/gentoo-mirror/guru|dev-libs/microprofile|0
+https://github.com/Dr4kk3N/dkn-overlay|games-emulation/sudachi|0
