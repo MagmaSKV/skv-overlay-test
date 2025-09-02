@@ -26,7 +26,7 @@ RDEPEND="
 	dev-libs/inih
 	dev-libs/libfmt:=
 	dev-libs/microprofile
-	dev-libs/nihstro
+	dev-util/nihstro
 	dev-libs/openssl:=
 	dev-libs/sirit
 	dev-libs/teakra
