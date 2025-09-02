@@ -46,7 +46,7 @@ DEPEND="
 	${RDEPEND}
 	dev-util/spirv-headers
 	dev-util/vulkan-headers
-	media-libs/VulkanMemoryAllocator
+	dev-libs/vulkan-memory-allocator
 	amd64? ( dev-libs/xbyak )
 	arm64? ( dev-libs/oaknut )
 "
