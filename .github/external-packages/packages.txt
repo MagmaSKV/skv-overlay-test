@@ -4,3 +4,4 @@ https://github.com/gentoo-mirror/guru|net-vpn/cloudflare-warp|0
 https://github.com/gentoo-mirror/FireBurn/|/games-emulation/yuzu|0
 https://github.com/gentoo-mirror/guru|media-libs/VulkanMemoryAllocator|0
 https://github.com/gentoo-mirror/guru|dev-libs/nihstro|0
+https://github.com/Dr4kk3N/dkn-overlay|games-emulation/azahar|0
