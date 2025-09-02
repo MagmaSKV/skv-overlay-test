@@ -1,3 +1,4 @@
 games-util/ds4drv/ds4drv-9999.ebuild
 media-libs/mesa/mesa-9999-r1.ebuild
 games-emulation/citra/citra-20241029-r1.ebuild
+games-emulation/azahar-2123.1.ebuild
