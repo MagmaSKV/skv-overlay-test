@@ -3,3 +3,5 @@ https://github.com/Tatsh/tatsh-overlay|games-emulation/citra|0
 https://github.com/gentoo-mirror/guru|net-vpn/cloudflare-warp|0
 https://github.com/gentoo-mirror/FireBurn/|/games-emulation/yuzu|0
 https://github.com/gentoo-mirror/guru|media-libs/VulkanMemoryAllocator|0
+https://github.com/gentoo-mirror/guru|dev-libs/nihstro|0
+https://data.gpo.zugaina.org/cg/|dev-libs/vulkan-memory-allocator|0
