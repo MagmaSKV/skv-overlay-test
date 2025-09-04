@@ -4,3 +4,5 @@ games-emulation/citra/citra-20241029-r1.ebuild
 games-emulation/azahar/azahar-2123.1.ebuild
 games-emulation/sudachi/sudachi-1.0.15.ebuild
 games-emulation/citron/citron-9999.ebuild
+dev-python/FVS/FVS-0.3.4-r1.ebuild
+app-emulation/bottles/bottles-9999.ebuild
