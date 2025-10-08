@@ -9,10 +9,11 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND="
-    dev-qt/qtbase:6[gui,widgets,network,svg,concurrent]
-    dev-qt/qtcharts:6
+DEPEND="dev-qt/qtcharts
+    dev-qt/qtconcurrent
+    dev-qt/qtnetwork
 "
+
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/Stacer-1.1.0"
