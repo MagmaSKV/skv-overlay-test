@@ -1,35 +1,18 @@
-# Copyright 2021 Gentoo Authors
-# Distributed under the terms of the GNU General Public License v2
-
-EAPI=7
-
+EAPI=8
 inherit cmake
 
-DESCRIPTION="Linux System Optimizer and Monitoring"
+DESCRIPTION="Linux System Optimizer and Monitoring (Qt6 port)"
 HOMEPAGE="https://github.com/MagmaSKV/Stacer"
-SRC_URI="https://github.com/MagmaSKV/Stacer/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/MagmaSKV/Stacer/archive/refs/tags/v1.1.0.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
-DEPEND="dev-qt/qtcharts
-    dev-qt/qtconcurrent
-    dev-qt/qtnetwork
+DEPEND="
+    dev-qt/qtbase:6[gui,widgets,network,svg,concurrent]
+    dev-qt/qtcharts:6
 "
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
-S="${WORKDIR}/Stacer-${PV}"
-
-src_install() {
-    default
-    dobin ${BUILD_DIR}/output/stacer
-
-    insinto /usr/share/icons/
-    cp -r "${S}"/icons/* "${ED}"/usr/share/icons
-
-    insinto /usr/share/applications/
-    doins applications/stacer.desktop
-}
+S="${WORKDIR}/Stacer-1.1.0"
