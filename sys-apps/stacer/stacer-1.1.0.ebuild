@@ -16,4 +16,4 @@ DEPEND="dev-qt/qtcharts
 
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/Stacer-1.1.0-qt6"
+S="${WORKDIR}/Stacer-1.1.0"
