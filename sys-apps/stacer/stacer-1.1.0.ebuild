@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="Linux System Optimizer and Monitoring"
 HOMEPAGE="https://github.com/oguzhaninan/Stacer"
