@@ -6,8 +6,8 @@ EAPI=7
 inherit cmake
 
 DESCRIPTION="Linux System Optimizer and Monitoring"
-HOMEPAGE="https://github.com/oguzhaninan/Stacer"
-SRC_URI="https://github.com/oguzhaninan/Stacer/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="https://github.com/MagmaSKV/Stacer"
+SRC_URI="https://github.com/MagmaSKV/Stacer/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
