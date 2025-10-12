@@ -18,7 +18,7 @@ inherit desktop
 
 src_install() {
 	insinto /opt/${PN}
-	cd /var/tmp/portage/net-p2p/${P}/work/${P}
+	cd /var/tmp/portage/net-p2p/${P}/work/
 	doins -r JDownloader.jar
 	echo "#!/bin/sh" > ${PN}
 	echo "if [ -d "'$HOME'"/.${PN}/ ] ; then" >> ${PN}
