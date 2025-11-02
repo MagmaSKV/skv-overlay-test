@@ -11,3 +11,4 @@ https://github.com/Dr4kk3N/dkn-overlay|dev-python/FVS|0
 https://github.com/Dr4kk3N/dkn-overlay|app-emulation/bottles|0
 https://github.com/Dr4kk3N/dkn-overlay|dev-python/vkbasalt-cli|0
 https://github.com/Dr4kk3N/dkn-overlay|dev-python/icoextract|0
+https://github.com/microcai/gentoo-zh|games-emulation/conty|0
