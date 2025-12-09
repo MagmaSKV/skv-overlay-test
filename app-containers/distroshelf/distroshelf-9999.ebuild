@@ -16,7 +16,7 @@ IUSE=""
 
 # Dependencias (revisar según README)
 DEPEND="
-    >=sys-apps/distrobox-1.7
+    app-containers/distrobox
     dev-libs/glib:2
     gui-libs/gtk:4
     gui-libs/libadwaita
