@@ -13,7 +13,7 @@ IUSE=""
 # Dependencias de tiempo de compilación y ejecución
 DEPEND="
     >=dev-java/openjdk-21
-    dev-java/gradle
+    dev-java/gradle-bin
     media-video/ffmpeg
 "
 
