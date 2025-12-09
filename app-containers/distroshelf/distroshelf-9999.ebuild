@@ -19,11 +19,11 @@ DEPEND="
     dev-libs/glib:2
     gui-libs/gtk:4
     gui-libs/libadwaita
-    dev-lang/rust[cargo]
+    dev-lang/rust
 "
 RDEPEND="${DEPEND}"
 
-# Permite que Portage descargue crates antes de compilar
+# Cargo necesita descargar crates antes de compilar
 CARGO_FETCH_CRATES=yes
 
 src_unpack() {
