@@ -24,14 +24,16 @@ RDEPEND="${DEPEND}"
 src_prepare() {
     default
 
-    # Remove jlink plugin to avoid remote Gradle Plugin Portal access
-    sed -i "s/id 'org.beryx.jlink'//" core/build.gradle || die
-    sed -i "/org.beryx.jlink/d" settings.gradle || die
+    # Eliminar el wrapper (evita descargas online)
+    rm -f gradlew gradlew.bat
+    rm -rf gradle/
 
-    # Remove Gradle wrapper to prevent downloads
-    rm -f gradlew || die
-    rm -rf gradle/wrapper || die
-    find . -name '*wrapper*' -exec rm -f {} + || die
+    # Eliminar plugin jlink en TODOS los build.gradle del proyecto
+    find . -name "build.gradle" -exec sed -i \
+        "/org\.beryx\.jlink/d" {} +
+
+    # También limpiar settings.gradle por si hace referencia al plugin
+    sed -i "/org.beryx.jlink/d" settings.gradle || true
 }
 
 src_compile() {
