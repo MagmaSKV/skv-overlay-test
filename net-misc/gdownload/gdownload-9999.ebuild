@@ -39,7 +39,7 @@ src_prepare() {
 
 src_compile() {
     export GRADLE_USER_HOME="${WORKDIR}/gradle-cache"
-    ./gradlew clean build jpackage || die "Gradle build failed"
+    ./gradlew --no-daemon clean build jpackage || die "Gradle build failed"
 }
 
 
@@ -47,7 +47,5 @@ src_install() {
     insinto /opt/GDownloader
     doins -r build/* || die
 
-
-# Provide launcher
     make_wrapper gdownloader "/opt/GDownloader/jpackage/GDownloader/bin/GDownloader"
 }
