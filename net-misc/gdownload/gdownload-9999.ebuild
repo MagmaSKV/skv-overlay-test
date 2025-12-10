@@ -25,27 +25,49 @@ inherit git-r3 java-pkg-2
 
 # Dependencies
 DEPEND="
-    virtual/jdk:21
-    media-video/ffmpeg
-    dev-java/gradle-bin
+virtual/jdk:21
+media-video/ffmpeg
+dev-java/gradle-bin
 "
 RDEPEND="${DEPEND}"
 
 
 src_prepare() {
-    default
+default
 }
 
 
 src_compile() {
-    export GRADLE_USER_HOME="${WORKDIR}/gradle-cache"
-    ./gradlew --no-daemon clean build jpackage || die "Gradle build failed"
+# Use local Gradle cache
+export GRADLE_USER_HOME="${WORKDIR}/gradle-cache"
+
+
+# Remove Gradle wrapper to prevent network downloads
+rm -f gradlew || die
+rm -rf gradle/wrapper || die
+
+
+# Use system gradle-bin
+gradle --no-daemon clean build jpackage || die "Gradle build failed"
+}/gradle-cache"
+
+
+# Do NOT use the Gradle wrapper (it tries to download Gradle)
+# Use system gradle-bin instead
+gradle --no-daemon clean build jpackage || die "Gradle build failed"
+}/gradle-cache"
+
+
+gradle --no-daemon clean build jpackage || die "Gradle build failed"
 }
 
 
 src_install() {
-    insinto /opt/GDownloader
-    doins -r build/* || die
+# Install built artifacts
+insinto /opt/GDownloader
+doins -r build/* || die
 
-    make_wrapper gdownloader "/opt/GDownloader/jpackage/GDownloader/bin/GDownloader"
+
+# Provide launcher
+make_wrapper gdownloader "/opt/GDownloader/jpackage/GDownloader/bin/GDownloader"
 }
