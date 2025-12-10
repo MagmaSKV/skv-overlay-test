@@ -18,7 +18,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
     # Nothing to patch or prepare, portable release
-    return 0
+    default
 }
 
 src_unpack() {
