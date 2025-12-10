@@ -1,45 +1,51 @@
 # Copyright 2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-
 EAPI=8
 
-
-DESCRIPTION="GDownloader 1.5.12 - GUI Downloader prebuilt bundle"
+DESCRIPTION="GDownloader 1.5.12 - GUI Downloader (portable, prebuilt)"
 HOMEPAGE="https://github.com/hstr0100/GDownloader"
 SRC_URI="https://github.com/hstr0100/GDownloader/releases/download/v1.5.12/gdownloader-1.5.12-linux_portable_amd64.zip"
-
-
+DISTFILES="${SRC_URI}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-
+IUSE=""
 
 DEPEND="virtual/jdk:21"
 RDEPEND="${DEPEND}"
 
-
-src_unpack() {
-unzip ${DISTDIR}/$(basename ${SRC_URI}) -d "${WORKDIR}" || die "Failed to unzip"
+src_prepare() {
+    # Nothing to patch or prepare, portable release
+    return 0
 }
 
+src_unpack() {
+    # Unpack the portable zip directly into WORKDIR
+    unzip "${DISTDIR}/gdownloader-1.5.12-linux_portable_amd64.zip" -d "${WORKDIR}" || die "Failed to unpack portable zip"
+}
+
+src_compile() {
+    # No compilation needed
+    return 0
+}
 
 src_install() {
-# Install everything into /opt/GDownloader
-insinto /opt/GDownloader
-doins -r "${WORKDIR}/gdownloader-1.5.12-linux_portable_amd64" || die
+    # Instalamos la app en /opt/GDownloader
+    insinto /opt/GDownloader
+    doins -r "${WORKDIR}/lib/"* || die "Failed to install lib files"
+    doins -r "${WORKDIR}/bin/"* || die "Failed to install bin files"
 
+    # Crear wrapper en /usr/bin
+    make_wrapper /usr/bin/gdownloader /opt/GDownloader/runtime/bin/GDownloader \
+        WORKDIR /opt/GDownloader \
+        APP_NAME "GDownloader"
 
-# Make wrapper script
-make_wrapper /usr/bin/gdownloader "/opt/GDownloader/GDownloader" "/opt/GDownloader"
+    # Instalar el .desktop para menú
+    insinto /usr/share/applications
+    doins "${WORKDIR}/lib/app/GDownloader.desktop" || die "Failed to install desktop file"
 
-
-# Install .desktop file
-insinto /usr/share/applications
-einstalldesktop gdownloader.desktop || die
-
-
-# Install icon if exists
-insinto /usr/share/pixmaps
-doins /opt/GDownloader/icon.png || true
+    # Icono
+    insinto /usr/share/icons/hicolor/256x256/apps
+    doins "${WORKDIR}/lib/app/GDownloader.png" || die "Failed to install icon"
 }
