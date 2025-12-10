@@ -1,46 +1,54 @@
+# Copyright 2025 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+
 EAPI=8
 
-DESCRIPTION="GDownloader: GUI Download Manager built with Java"
+
+JAVA_PKG_IUSE="source"
+
+
+DESCRIPTION="GDownloader - GUI Downloader built with Java and Gradle"
 HOMEPAGE="https://github.com/hstr0100/GDownloader"
+SRC_URI=""
 
-# Live Git ebuild
-SRC_URI="git+https://github.com/hstr0100/GDownloader.git"
-EGIT_REPO_URI="https://github.com/hstr0100/GDownloader.git"
 
-LICENSE="MIT"
+LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE=""
+KEYWORDS="~amd64"
 
-# Dependencias
+
+# Using git as source
+EGIT_REPO_URI="https://github.com/hstr0100/GDownloader.git"
+inherit git-r3 java-pkg-2
+
+
+# Dependencies
 DEPEND="
-    >=dev-java/openjdk-21
-    dev-java/gradle-bin
-    media-video/ffmpeg
+virtual/jdk:21
+media-video/ffmpeg
+dev-java/gradle-bin
 "
-
 RDEPEND="${DEPEND}"
 
-# Portage define S automáticamente como ${WORKDIR}/${PN}-${PV}
-# Pero para live ebuilds a veces el repo clona en WORKDIR directamente
-# Así que dejamos S como WORKDIR
-S="${WORKDIR}"
 
 src_prepare() {
-    default
-    chmod +x ./gradlew
+default
 }
+
 
 src_compile() {
-    ./gradlew clean build jpackage
+# build with gradle
+./gradlew clean build jpackage || die "Gradle build failed"
 }
 
-src_install() {
-    local install_dir="${D}/opt/gdownload"
-    mkdir -p "${install_dir}"
-    cp -r build/jpackage/* "${install_dir}/"
 
-    local bin_dir="${D}/usr/bin"
-    mkdir -p "${bin_dir}"
-    ln -s /opt/gdownload/GDownloader "${bin_dir}/gdownload"
+src_install() {
+# Install built artifacts
+insinto /opt/GDownloader
+doins -r build/* || die
+
+
+# Provide launcher
+make_wrapper gdownloader "/opt/GDownloader/jpackage/GDownloader/bin/GDownloader"
 }
