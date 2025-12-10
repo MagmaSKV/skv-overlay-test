@@ -42,22 +42,6 @@ src_compile() {
 export GRADLE_USER_HOME="${WORKDIR}/gradle-cache"
 
 
-# Hard-remove ALL Gradle wrapper components to prevent network downloads
-rm -f gradlew || die
-rm -f gradle/wrapper/gradle-wrapper.jar || die
-rm -f gradle/wrapper/gradle-wrapper.properties || die
-rm -rf gradle/wrapper || die
-
-
-# Ensure no wrapper jars remain anywhere
-find . -name '*wrapper*' -exec rm -f {} +
-
-
-# Use system gradle-bin
-gradle --no-daemon clean build jpackage || die "Gradle build failed"
-}/gradle-cache"
-
-
 # Remove Gradle wrapper to prevent network downloads
 rm -f gradlew || die
 rm -rf gradle/wrapper || die
