@@ -25,30 +25,29 @@ inherit git-r3 java-pkg-2
 
 # Dependencies
 DEPEND="
-virtual/jdk:21
-media-video/ffmpeg
-dev-java/gradle-bin
+    virtual/jdk:21
+    media-video/ffmpeg
+    dev-java/gradle-bin
 "
 RDEPEND="${DEPEND}"
 
 
 src_prepare() {
-default
+    default
 }
 
 
 src_compile() {
-# build with gradle
-./gradlew clean build jpackage || die "Gradle build failed"
+    export GRADLE_USER_HOME="${WORKDIR}/gradle-cache"
+    ./gradlew clean build jpackage || die "Gradle build failed"
 }
 
 
 src_install() {
-# Install built artifacts
-insinto /opt/GDownloader
-doins -r build/* || die
+    insinto /opt/GDownloader
+    doins -r build/* || die
 
 
 # Provide launcher
-make_wrapper gdownloader "/opt/GDownloader/jpackage/GDownloader/bin/GDownloader"
+    make_wrapper gdownloader "/opt/GDownloader/jpackage/GDownloader/bin/GDownloader"
 }
