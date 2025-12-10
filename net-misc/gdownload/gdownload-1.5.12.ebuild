@@ -50,3 +50,15 @@ src_install() {
     insinto /usr/share/icons/hicolor/256x256/apps
     doins "${WORKDIR}/lib/app/GDownloader.png" || die "Failed to install icon"
 }
+
+pkg_postinst() {
+    # Actualiza la base de datos de menús
+    if type update-desktop-database >/dev/null 2>&1; then
+        update-desktop-database -q
+    fi
+
+    # Actualiza la caché de iconos
+    if type gtk-update-icon-cache >/dev/null 2>&1; then
+        gtk-update-icon-cache -f -q /usr/share/icons/hicolor
+    fi
+}
