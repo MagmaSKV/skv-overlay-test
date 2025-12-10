@@ -3,8 +3,10 @@ EAPI=8
 DESCRIPTION="GDownloader: GUI Download Manager built with Java"
 HOMEPAGE="https://github.com/hstr0100/GDownloader"
 SRC_URI="git+https://github.com/hstr0100/GDownloader.git"
-SLOT="0"
+EGIT_REPO_URI="https://github.com/hstr0100/GDownloader.git"
+
 LICENSE="MIT"
+SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
