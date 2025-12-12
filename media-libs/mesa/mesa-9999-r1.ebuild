@@ -322,7 +322,7 @@ multilib_src_configure() {
 		emesonargs+=($(meson_feature vaapi gallium-d3d12-video))
 	fi
 
-	emesonargs+=(-Dgallium-vdpau=disabled)
+	#emesonargs+=(-Dgallium-vdpau=disabled)
 
 	gallium_enable !llvm softpipe
 	gallium_enable llvm llvmpipe
