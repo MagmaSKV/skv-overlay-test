@@ -74,7 +74,7 @@ index 2c1cd5e8152..1b78c2fdf3f 100644
        raster_config_1 = 0x0000002e;
        break;
 +   case CHIP_LIVERPOOL:
-+      raster_config = 0x1e00161a;
++      raster_config = 0x1800161a;
 +      raster_config_1 = 0x00000000;
 +      break;
 +   case CHIP_GLADIUS:
