@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake git-r3 toolchain-funcs xdg
+inherit cmake flag-o-matic git-r3 toolchain-funcs xdg
 
 DESCRIPTION="An emulator for Nintendo Switch"
 HOMEPAGE="https://yuzu-emu.org"
@@ -64,6 +64,11 @@ BDEPEND="
 "
 REQUIRED_USE="|| ( qt5 qt6 sdl ) discord? ( webservice )"
 RESTRICT="!test? ( test )"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-9999-renderdoc-1.7.patch
+	"${FILESDIR}"/${PN}-9999-const-flow-block.patch
+)
 
 pkg_setup() {
 	if tc-is-gcc; then
@@ -140,6 +145,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Dynarmic is built without it, which leaves Boost's asserts on, and
+	# one of them fires as soon as a game starts
+	append-cppflags -DNDEBUG
+
 	local -a mycmakeargs=(
 		# Libraries are private and rely on circular dependency resolution.
 		-DBUILD_SHARED_LIBS=OFF # dynarmic
@@ -152,6 +161,7 @@ src_configure() {
 		-DENABLE_SDL2=$(usex sdl)
 		-DENABLE_WEB_SERVICE=$(usex webservice)
 		-DUSE_DISCORD_PRESENCE=$(usex discord)
+		-DUSE_SYSTEM_QT=ON
 		-DYUZU_TESTS=$(usex test)
 		-DYUZU_USE_EXTERNAL_VULKAN_HEADERS=$(usex system-vulkan no yes)
 		-DYUZU_USE_EXTERNAL_VULKAN_UTILITY_LIBRARIES=$(usex system-vulkan no yes)
